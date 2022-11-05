@@ -2,10 +2,13 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import * as tf from '@tensorflow/tfjs'
 import { fetch } from '@tensorflow/tfjs-react-native'
+import * as mobilenet from '@tensorflow-models/mobilenet'
+
 
 class App extends React.Component {
   state = {
-    isTfReady: false
+    isTfReady: false,
+    isModelReady: false,
   }
 
   async componentDidMount() {
@@ -13,15 +16,19 @@ class App extends React.Component {
     this.setState({
       isTfReady: true
     })
-
-    //Output in Expo console
-    console.log(this.state.isTfReady)
+    this.model = await mobilenet.load()
+    this.setState({ isModelReady: true })
+    this.getPermissionAsync()
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text>TFJS ready? {this.state.isTfReady ? <Text>Yes</Text> : ''}</Text>
+        <Text>
+          Model ready?{' '}
+          {this.state.isModelReady ? <Text>Yes</Text> : <Text>Loading Model...</Text>}
+        </Text>
       </View>
     )
   }
