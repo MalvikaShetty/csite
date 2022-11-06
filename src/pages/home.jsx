@@ -16,7 +16,9 @@ function Home() {
          </h2>
          <h3> </h3>
          <span><button style={{fontWeight:'bold',paddingRight:50,paddingLeft:40}} 
-               className='btn btn-primary btn-lg m-3' onClick={()=>{navigate("/addRes")}} >&nbsp;&nbsp; Add Resources &nbsp;&nbsp;</button>
+                className='btn btn-secondary btn-lg' onClick={()=>{navigate("/map")}}>&nbsp;&nbsp; Map &nbsp;&nbsp;</button>
+        <button style={{fontWeight:'bold',paddingRight:50,paddingLeft:40}} 
+               className='btn btn-primary btn-lg m-3' onClick={()=>{navigate("/resOptions")}} >&nbsp;&nbsp; Track Resources &nbsp;&nbsp;</button>
          <button style={{fontWeight:'bold',paddingRight:50,paddingLeft:40}} 
                 className='btn btn-secondary btn-lg' onClick={()=>{navigate("/scanPlant")}}>&nbsp;&nbsp; Scan Plant &nbsp;&nbsp;</button></span>
          </header>

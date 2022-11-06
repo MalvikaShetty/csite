@@ -6,7 +6,7 @@ import {addDoc,collection} from "@firebase/firestore";
 import {Link, Routes, Route, useNavigate} from 'react-router-dom';
 
 
-function addRes() {
+function addFoodRes() {
     const navigate = useNavigate();
     const count=useRef();
     const nameFood=useRef();
@@ -40,7 +40,7 @@ function addRes() {
         <label>Food Item Count</label>
         <input type="number" ref={count}/><br></br>
         <br></br>
-        <button type="submit" style={{fontWeight:'bold',paddingRight:50,paddingLeft:40}}>Save</button>
+        <button type="submit" style={{fontWeight:'bold', paddingRight:50,paddingLeft:40}}>Save</button>
     </form>
     </div>
    
@@ -57,4 +57,4 @@ function addRes() {
   );
 }
 
-export default addRes;
+export default addFoodRes;
