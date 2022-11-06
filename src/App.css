@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -14,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #100c03;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,6 +23,38 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-custom{
+  background-color: #eed49a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  font-size: calc(10px + 2vmin);
+  padding-top:20%;
+}
+
+.textColor{
+  color: white;
+}
+
+.place {
+  margin-top: 0.3rem;
+  vertical-align: baseline;
+
+
+}
+
+.inputPlace{
+  width: 30px;
+  height:20px;
+
+}
+
+.result{
+  color: rgb(51, 10, 10);
 }
 
 .App-link {
@@ -35,4 +68,87 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+/* For checkboxes */
+.App1 {
+  padding-top: 6%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+h4 {
+  text-align: center;
+  padding-bottom:2%;
+}
+
+.topping {
+  margin-top: 0.3rem;
+  vertical-align: text-bottom;
+}
+
+.result {
+  margin-top: 1rem;
+}
+
+.places-list,
+.total {
+  width: 40%;
+  margin: 0 auto;
+}
+
+.places-list {
+  list-style: none;
+  padding: 0;
+}
+
+.places-list li {
+  margin-bottom: 0.5rem;
+}
+
+.places-list-item {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.places-list li:last-child {
+  border-top: 1px solid #ccc;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  font-size:18px;
+  font-weight: 500;
+}
+
+.places-list-item label {
+  vertical-align: text-bottom;
+  margin-left: 0.2rem;
+  font-size: larger;
+}
+
+.total {
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .places-list,
+  .total {
+    width: 90%;
+  }
+}
+
+.image-center{
+  text-align: center;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+}
+
+.btn1{
+  overflow-y: hidden;
+  display:none;
+  visibility: hidden;
 }
