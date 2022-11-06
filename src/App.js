@@ -8,6 +8,7 @@ import AddFoodRes from './pages/addFoodRes';
 import DisplayFoodRes from './pages/displayFoodRes';
 import DisplayFirstAidRes from './pages/displayFirstAidRes';
 import Map from './pages/map';
+import ScanPlant from './pages/scanPlant';
 import { render } from '@testing-library/react';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/displayfoodres/:password" element={<DisplayFoodRes />}/>
         <Route path="/displayFirstAidRes/:password" element={<DisplayFirstAidRes />}/>
         <Route path="/map" element={<Map />}/>
+        <Route path="/scan" element={<ScanPlant />}/>
     </Routes>
 </Router>
     // <div className="App">

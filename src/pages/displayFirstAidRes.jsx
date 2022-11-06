@@ -25,7 +25,7 @@ function displayFirstAidRes() {
         let navigate=useNavigate();
         const { password } = useParams();
         //ADD FIRST AID ITEM
-        const [modalFoodOpen, setAddModalOpen] = useState(false);
+        const [modalFirstAidOpen, setAddModalOpen] = useState(false);
         const countFa=useRef();
         const nameFa=useRef();
         const ref = collection(firestore, "FirstAidItems");
@@ -137,7 +137,7 @@ function displayFirstAidRes() {
                </table>
                <button className='btn btn-secondary' onClick={()=>{navigate("/resOptions/"+password)}}>Back</button>
                <Modal
-                isOpen={modalFoodOpen}
+                isOpen={modalFirstAidOpen}
                 onRequestClose={() => setAddModalOpen(false)}
                 style={customStyles}>
                 <h2>Add resources</h2>
