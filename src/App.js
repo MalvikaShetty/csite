@@ -1,15 +1,28 @@
 import logo from "./logo.svg";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
-import { useOpenCv } from 'opencv-react';
+import { useOpenCv } from "opencv-react";
 import "./App.css";
 
 function App() {
+  const [imgSrc, setImageSrc] = useState();
+  const [type, setType] = useState();
+  const [scanned, setScanned] = useState(false);
   const webCamRef = useRef(null);
   const canvasRef = useRef(null);
-  const cv = useOpenCv()
+  const capture = useCallback(() => {
+    if (
+      typeof webCamRef.current !== "undefined" &&
+      webCamRef.current !== null
+    ) {
+      setImageSrc(webCamRef.current.getScreenshot());
+    }
+  }, [webCamRef]);
+
+  console.log(capture);
+  const cv = useOpenCv();
 
   const runCoco = async () => {
     const net = await cocossd.load();
@@ -18,37 +31,41 @@ function App() {
 
   const detect = async (net) => {
     try {
-      const model = await tf.loadLayersModel("/toxic_classifier_tfjs/model.json");
+      const model = await tf.loadLayersModel(
+        "/toxic_classifier_tfjs/model.json"
+      );
+
       console.log(webCamRef.current);
       console.log("Summary:", model.summary());
-      const image = new Image(256, 256)
-      image.src = './000.jpg'
-      const src = tf.browser.fromPixels(image)
-      const resize = tf.image.resizeBilinear(src, [256, 256])
-      const expanded = tf.expandDims(resize, 0)
+      const image = new Image(256, 256);
+      image.src = imgSrc ? imgSrc : null;
+      const src = tf.browser.fromPixels(image);
+      const resize = tf.image.resizeBilinear(src, [256, 256]);
+      const expanded = tf.expandDims(resize, 0);
       const yhat = model.predict(expanded);
       console.log(yhat);
       yhat > 0.5 ? console.log("Toxic") : console.log("Non toxic");
+      //yhat > 0.5 ? setType(true) : setType(false);
+      setScanned(true);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-    // if (
-    //   typeof webCamRef.current !== "undefined" &&
-    //   webCamRef.current !== null &&
-    //   webCamRef.current.video.readyState === 4
-    // ) {
-    //   const video = webCamRef.current.video;
-    //   const videoHeight = webCamRef.current.videoHeight;
-    //   const videoWidth = webCamRef.current.videoWidth;
+    if (
+      typeof webCamRef.current !== "undefined" &&
+      webCamRef.current !== null &&
+      webCamRef.current.video.readyState === 4
+    ) {
+      const video = webCamRef.current.video;
+      const videoHeight = webCamRef.current.videoHeight;
+      const videoWidth = webCamRef.current.videoWidth;
 
-    //   webCamRef.current.video.width = videoWidth;
-    //   webCamRef.current.video.height = videoHeight;
+      webCamRef.current.video.width = videoWidth;
+      webCamRef.current.video.height = videoHeight;
 
-    //   const obj = await net.detect(video);
-    //   console.log(obj);
-
-    //   const ctx = canvasRef.current.getContext("2d");
-    // }
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+      const ctx = canvasRef.current.getContext("2d");
+    }
   };
 
   useEffect(() => {
@@ -56,13 +73,15 @@ function App() {
   }, []);
   return (
     <div className="App">
+      {/* <p>Hello</p>
+      {scanned ? type ? <h3>Toxic</h3> : <h3>NonToxic</h3> : ""} */}
       <Webcam
         ref={webCamRef}
         muted={true}
-        mirrored={true}
-        // videoConstraints={{
-        //   facingMode: { exact: "environment" || "user" },
-        // }}
+        videoConstraints={{
+          facingMode: { exact: "user" },
+        }}
+        screenshotFormat="image/jpeg"
         style={{
           position: "absolute",
           marginLeft: "auto",
@@ -89,6 +108,9 @@ function App() {
           height: 480,
         }}
       />
+      {setInterval(() => {
+        capture();
+      }, 10)}
     </div>
   );
 }
