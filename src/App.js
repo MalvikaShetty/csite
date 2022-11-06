@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, { Component, useState } from 'react';
 import Home from './pages/home';
+import Join from './pages/join';
 import ResOptions from './pages/resOptions.jsx';
 import AddFoodRes from './pages/addFoodRes';
 import DisplayFoodRes from './pages/displayFoodRes';
@@ -15,7 +16,7 @@ function App() {
     <Router>
     <Routes>
         <Route path="/" element={<Home />}/>
-        {/* <Route path="/:veri" element={<Home />}/> */}
+        <Route path="/join" element={<Join />}/>
         <Route path="/resoptions/:password" element={<ResOptions />}/>
         <Route path="/addfoodres" element={<AddFoodRes />}/>
         <Route path="/displayfoodres/:password" element={<DisplayFoodRes />}/>
