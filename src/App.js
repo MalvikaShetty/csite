@@ -3,11 +3,13 @@ import { useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
+import { useOpenCv } from 'opencv-react';
 import "./App.css";
 
 function App() {
   const webCamRef = useRef(null);
   const canvasRef = useRef(null);
+  const cv = useOpenCv()
 
   const runCoco = async () => {
     const net = await cocossd.load();
@@ -15,12 +17,21 @@ function App() {
   };
 
   const detect = async (net) => {
-    const model = await tf.loadLayersModel("/toxic_classifier_tfjs/model.json");
-    console.log(webCamRef.current);
-    console.log(model.summary());
-    const yhat = model.predict("../000.jpg");
-    console.log(yhat);
-    yhat > 0.5 ? console.log("Toxic") : console.log("Non toxic");
+    try {
+      const model = await tf.loadLayersModel("/toxic_classifier_tfjs/model.json");
+      console.log(webCamRef.current);
+      console.log("Summary:", model.summary());
+      const image = new Image(256, 256)
+      image.src = './000.jpg'
+      const src = tf.browser.fromPixels(image)
+      const resize = tf.image.resizeBilinear(src, [256, 256])
+      const expanded = tf.expandDims(resize, 0)
+      const yhat = model.predict(expanded);
+      console.log(yhat);
+      yhat > 0.5 ? console.log("Toxic") : console.log("Non toxic");
+    } catch (e) {
+      console.log(e)
+    }
     // if (
     //   typeof webCamRef.current !== "undefined" &&
     //   webCamRef.current !== null &&
