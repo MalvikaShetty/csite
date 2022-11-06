@@ -5,7 +5,7 @@ import Home from './pages/home';
 import ResOptions from './pages/resOptions.jsx';
 import AddFoodRes from './pages/addFoodRes';
 import DisplayFoodRes from './pages/displayFoodRes';
-import Map from './pages/map';
+import MapPage from './pages/map';
 import { render } from '@testing-library/react';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 
@@ -17,7 +17,7 @@ function App() {
         <Route path="/resoptions" element={<ResOptions />}/>
         <Route path="/addfoodres" element={<AddFoodRes />}/>
         <Route path="/displayfoodres" element={<DisplayFoodRes />}/>
-        <Route path="/map" element={<Map />}/>
+        <Route path="/map" element={<MapPage />}/>
     </Routes>
 </Router>
     // <div className="App">
