@@ -11,30 +11,33 @@ function App() {
 
   const runCoco = async () => {
     const net = await cocossd.load();
-    setInterval(() => {
-      detect(net);
-    }, 1500);
+    detect(net);
   };
 
   const detect = async (net) => {
+    const model = await tf.loadLayersModel("/toxic_classifier_tfjs/model.json");
     console.log(webCamRef.current);
-    if (
-      typeof webCamRef.current !== "undefined" &&
-      webCamRef.current !== null &&
-      webCamRef.current.video.readyState === 4
-    ) {
-      const video = webCamRef.current.video;
-      const videoHeight = webCamRef.current.videoHeight;
-      const videoWidth = webCamRef.current.videoWidth;
+    console.log(model.summary());
+    const yhat = model.predict("../000.jpg");
+    console.log(yhat);
+    yhat > 0.5 ? console.log("Toxic") : console.log("Non toxic");
+    // if (
+    //   typeof webCamRef.current !== "undefined" &&
+    //   webCamRef.current !== null &&
+    //   webCamRef.current.video.readyState === 4
+    // ) {
+    //   const video = webCamRef.current.video;
+    //   const videoHeight = webCamRef.current.videoHeight;
+    //   const videoWidth = webCamRef.current.videoWidth;
 
-      webCamRef.current.video.width = videoWidth;
-      webCamRef.current.video.height = videoHeight;
+    //   webCamRef.current.video.width = videoWidth;
+    //   webCamRef.current.video.height = videoHeight;
 
-      const obj = await net.detect(video);
-      console.log(obj);
+    //   const obj = await net.detect(video);
+    //   console.log(obj);
 
-      const ctx = canvasRef.current.getContext("2d");
-    }
+    //   const ctx = canvasRef.current.getContext("2d");
+    // }
   };
 
   useEffect(() => {
