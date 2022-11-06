@@ -3,13 +3,17 @@ import React, { Component, useState, useRef } from 'react';
 import {firestore} from "../firebase";
 import {addDoc,collection} from "@firebase/firestore";
 import {Link, Routes, Route, useNavigate} from 'react-router-dom';
-
+import { useParams } from "react-router-dom";
 
 function resOptions() {
-   
+
+    let navigate=useNavigate();
+    const { password } = useParams();
+
     return(
         
     <div className="container-res">
+        <p>Your passcode: {password} </p>
         <h2 style={{marginLeft:200, color:'#ffc642'}}>Keep track of your Resources</h2><br></br>
   <div class="row">
     <div class="col-md-3 col-sm-6 item">
@@ -20,7 +24,7 @@ function resOptions() {
         <h6 class="card-text"> Click here to add and see count of food items</h6> 
         </div>
        
-        <a href="/displayfoodres" class="btn stretched-link"></a>
+        <a onClick={()=>{navigate("/displayfoodres/"+ password)}} class="btn stretched-link"></a>
   </div>
     </div>
     <div class="col-md-3 col-sm-6 item">
@@ -30,7 +34,7 @@ function resOptions() {
     <div style={{padding:8}}>
         <h6 class="card-text"> Click here to add and see count of First Aid items</h6> 
         </div>
-        <a href="/addfirstaidres" class="btn stretched-link"></a>
+        <a onClick={()=>{navigate("/displayFirstAidRes/"+ password)}} class="btn stretched-link"></a>
   </div>
     </div>
     <div class="col-md-3 col-sm-6 item">
@@ -45,7 +49,8 @@ function resOptions() {
     </div>
    
   </div>
-  
+  <br></br>
+  <button className='btn btn-warning' onClick={()=>{navigate("/")}}>Back</button>
 </div>
 
     );

@@ -21,22 +21,21 @@ const customStyles = {
   },
 };
 
-function displayFoodRes() {
+function displayFirstAidRes() {
         let navigate=useNavigate();
         const { password } = useParams();
-        //ADD FOOD ITEMS
+        //ADD FIRST AID ITEM
         const [modalFoodOpen, setAddModalOpen] = useState(false);
-        const count=useRef();
-        const nameFood=useRef();
-        const ref = collection(firestore, "Food Item");
+        const countFa=useRef();
+        const nameFa=useRef();
+        const ref = collection(firestore, "FirstAidItems");
     
         const handleSave =async(e) => {
             e.preventDefault();
-            console.log(count.current.value);
     
             let data={
-                Food_name: nameFood.current.value,
-                Item_count: Number(count.current.value), 
+                fa_name: nameFa.current.value,
+                fa_item_count: Number(countFa.current.value), 
                 passcode: password
             };
     
@@ -53,11 +52,11 @@ function displayFoodRes() {
 
         //DISPLAY FOOD ITEMS
         const [items , setItem] = useState([]);
-        const foodItemsCollectionRef =collection(firestore,"Food Item");
+        // const foodItemsCollectionRef =collection(firestore,"FirstAidItems");
 
         useEffect(()=>{
             const getItems=async()=>{
-              const p =await query(collection(firestore,"Food Item"),where("passcode", "==", password));
+              const p =await query(collection(firestore,"FirstAidItems"),where("passcode", "==", password));
                 const data = await getDocs(p);
                 setItem(data.docs.map((doc)=> ({...doc.data(), id: doc.id})));
             };
@@ -66,17 +65,17 @@ function displayFoodRes() {
         
         //UPDATE FOOD ITEMS
           const addItems=async(id,count)=>{
-              const itemDoc =doc(firestore,"Food Item",id);
+              const itemDoc =doc(firestore,"FirstAidItems",id);
               console.log(itemDoc);
-              const newFields = {Item_count:count+1};
+              const newFields = {fa_item_count:count+1};
               await updateDoc(itemDoc,newFields);
               window.location.reload();
             
           };
 
           const subItems=async(id,count)=>{
-            const itemDoc =doc(firestore,"Food Item",id);
-            const newFields = {Item_count:count-1};
+            const itemDoc =doc(firestore,"FirstAidItems",id);
+            const newFields = {fa_item_count:count-1};
             await updateDoc(itemDoc,newFields);
             window.location.reload();
         };
@@ -84,7 +83,7 @@ function displayFoodRes() {
         //DELETE FOOD ITEM
         const deleteItem=async(id)=>{
           if(alert("Are you sure?")==true){
-            const itemDoc =doc(firestore,"Food Item",id);
+            const itemDoc =doc(firestore,"FirstAidItems",id);
             await deleteDoc(itemDoc);
             window.location.reload();
           }
@@ -97,17 +96,17 @@ function displayFoodRes() {
         return (
             <div className="container">
               <p>Your passcode: {password} </p>
-              <h2>Food Item Count</h2>
-              <div style={{marginLeft:1050}}>
+              <h2>First Aid Item Count</h2>
+              <div style={{marginLeft:1100}}>
               <button style={{fontWeight:'bold',paddingRight:10,paddingLeft:10}} 
-               className='btn btn-primary btn-lg m-3' onClick={setAddModalOpen} >&nbsp;&nbsp; Add Food Item &nbsp;&nbsp;</button>
+               className='btn btn-primary btn-lg m-3' onClick={setAddModalOpen} >&nbsp;&nbsp; Add Item &nbsp;&nbsp;</button>
               </div>
                 
             <table class="table table-dark table-striped">
                         <thead>
                             <tr style={{backgroundColor:"Green"}}>
                             {/* <th scope="col">#</th> */}
-                            <th scope="col">Food Item</th>
+                            <th scope="col">First Aid Item</th>
                             <th scope="col">Count</th>
                             <th scope="col-md-4" class="spaceButtons">Edit Count</th>
                             <th scope="col">Delete</th>
@@ -119,12 +118,12 @@ function displayFoodRes() {
                         {items.map((item) => {
                             return(
                             <tr>
-                            <td>{item.Food_name}</td>
-                            <td>{item.Item_count}</td>
+                            <td>{item.fa_name}</td>
+                            <td>{item.fa_item_count}</td>
                             <td class="spaceButtons">
                              
-                              <button className='btn btn-secondary btn-lg' onClick={(e) => addItems(item.id, item.Item_count)}>+</button>
-                              <button className='btn btn-secondary btn-lg' onClick={(e) => subItems(item.id, item.Item_count)}>-</button>
+                              <button className='btn btn-secondary btn-lg' onClick={(e) => addItems(item.id, item.fa_item_count)}>+</button>
+                              <button className='btn btn-secondary btn-lg' onClick={(e) => subItems(item.id, item.fa_item_count)}>-</button>
                     
                             </td>
                             <td>
@@ -143,11 +142,11 @@ function displayFoodRes() {
                 style={customStyles}>
                 <h2>Add resources</h2>
                 <form onSubmit={handleSave}>
-                <label>Food Item Name</label>
-                    <input type="text" ref={nameFood}/><br></br>
+                <label>First Aid Item Name</label>
+                    <input type="text" ref={nameFa}/><br></br>
                     <br></br>
                     <label>Food Item Count</label>
-                    <input type="number" ref={count}/><br></br>
+                    <input type="number" ref={countFa}/><br></br>
                     <br></br>
                     <button type="submit" style={{fontWeight:'bold', paddingRight:50,paddingLeft:40}}>Save</button>
                 </form>
@@ -177,36 +176,5 @@ function displayFoodRes() {
         );
     }
       
-export default displayFoodRes;
+export default displayFirstAidRes;
 
-   
-{/* <table class="table table-dark table-striped">
-  <thead>
-    <tr class="table-primary">
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table> */}
-// </div>

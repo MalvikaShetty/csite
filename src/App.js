@@ -5,6 +5,7 @@ import Home from './pages/home';
 import ResOptions from './pages/resOptions.jsx';
 import AddFoodRes from './pages/addFoodRes';
 import DisplayFoodRes from './pages/displayFoodRes';
+import DisplayFirstAidRes from './pages/displayFirstAidRes';
 import Map from './pages/map';
 import { render } from '@testing-library/react';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
@@ -14,9 +15,11 @@ function App() {
     <Router>
     <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="/resoptions" element={<ResOptions />}/>
+        {/* <Route path="/:veri" element={<Home />}/> */}
+        <Route path="/resoptions/:password" element={<ResOptions />}/>
         <Route path="/addfoodres" element={<AddFoodRes />}/>
-        <Route path="/displayfoodres" element={<DisplayFoodRes />}/>
+        <Route path="/displayfoodres/:password" element={<DisplayFoodRes />}/>
+        <Route path="/displayFirstAidRes/:password" element={<DisplayFirstAidRes />}/>
         <Route path="/map" element={<Map />}/>
     </Routes>
 </Router>
